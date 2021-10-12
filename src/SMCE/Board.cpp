@@ -101,16 +101,21 @@ void Board::tick() noexcept {
     switch (m_status) {
     case Status::running:
     case Status::suspended: {
-        auto& in = *m_internal;
-        if (!in.sketch.running()) {
-            const auto exit_code = m_internal->sketch.exit_code();
-            do_sweep();
-            m_status = Status::stopped;
-            if (m_exit_notify)
-                m_exit_notify(exit_code);
-        }
+        if_suspended();
     }
     default:;
+    }
+}
+
+void Board::if_suspended() noexcept {
+
+    auto& in = *m_internal;
+    if (!in.sketch.running()) {
+        const auto exit_code = m_internal->sketch.exit_code();
+        do_sweep();
+        m_status = Status::stopped;
+        if (m_exit_notify)
+            m_exit_notify(exit_code);
     }
 }
 
