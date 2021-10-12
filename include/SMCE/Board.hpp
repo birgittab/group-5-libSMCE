@@ -90,6 +90,7 @@ class SMCE_API Board {
     void do_spawn() noexcept;
     void do_sweep() noexcept;
     void do_reap() noexcept;
+    void if_suspended() noexcept;
 
     Status m_status{};
     std::optional<BoardConfig> m_conf_opt;
